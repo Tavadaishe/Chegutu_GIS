@@ -12,20 +12,11 @@
 // ══════════════════════════════════════════════════════════════════════════════
 
 
-// ── 1. AOI ────────────────────────────────────────────────────────────────────
-// Swap in any FeatureCollection filter or drawn geometry here.
-// Example below uses FAO GAUL Level-1; edit the ADM1_NAME as needed.
+// ── 1. AOI – uploaded shapefile asset ────────────────────────────────────────
+var aoi = ee.FeatureCollection('projects/tavadaisheprojects/assets/MASVINGO');
 
-var gaul = ee.FeatureCollection('FAO/GAUL/2015/level1');
-
-// ── option A: use a named admin boundary ──────────────────────────────────────
-var aoi = gaul.filter(ee.Filter.eq('ADM1_NAME', 'Raqqa'));  // ← change as needed
-
-// ── option B: draw a rectangle in the GEE map panel and uncomment below ───────
-// var aoi = geometry;  // drawn geometry import
-
-Map.centerObject(aoi, 8);
-Map.addLayer(aoi, {color: 'white'}, 'AOI');
+Map.centerObject(aoi, 9);
+Map.addLayer(aoi, {color: 'white'}, 'Masvingo AOI');
 
 
 // ── 2. Cloud mask using HLS Fmask band ───────────────────────────────────────
@@ -185,13 +176,9 @@ print(indexStackFull, 'Full Index Stack incl. Thermal QI');
 
 // ── 9. Export to Google Drive ─────────────────────────────────────────────────
 // Each index exported as a separate single-band GeoTIFF, plus a stacked file.
-// CRS: EPSG:32637 for Raqqa (UTM 37N) – change for other AOIs.
-// Adjust 'crs' for your study area:
-//   Raqqa/Syria  → EPSG:32637
-//   Bulawayo/ZW  → EPSG:32736
-//   Generic      → EPSG:4326 (geographic)
+// CRS: EPSG:32736 – UTM Zone 36S (covers Masvingo, Zimbabwe)
 
-var exportCRS    = 'EPSG:32637';   // ← change per AOI
+var exportCRS    = 'EPSG:32736';   // UTM Zone 36S – Masvingo, Zimbabwe
 var exportScale  = 30;             // HLS native resolution
 var exportRegion = aoi;
 
